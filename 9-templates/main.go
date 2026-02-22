@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -51,8 +52,11 @@ func main() {
 		"content.html",
 		"footer.html",
 	}
-	tmpl2 := template.Must(template.New("content.html").ParseFiles(templates...))
-	err = tmpl2.Execute(os.Stdout, cursos)
+
+	template2 := template.New("content.html")
+	template2.Funcs((template.FuncMap{"ToUpper": strings.ToUpper}))
+	template2 = template.Must(template2.ParseFiles(templates...))
+	err = template2.Execute(os.Stdout, cursos)
 	if err != nil {
 		panic(err)
 	}

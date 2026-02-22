@@ -11,7 +11,7 @@
         <table>
             {{range .}}
             <tr>
-                <td>{{.Nome}}</td>
+                <td>{{.Nome | ToUpper}}</td>
                 <td>{{.CargaHoraria}}</td>
             </tr>
             {{end}}
