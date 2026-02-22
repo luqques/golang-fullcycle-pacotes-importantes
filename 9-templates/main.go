@@ -33,16 +33,27 @@ func main() {
 		{"Python", 30},
 		{"Java", 50},
 	}
-	tmpl := template.Must(template.ParseFiles("index.html"))
+	tmpl := template.Must(template.ParseFiles("content.html"))
 	err = tmpl.Execute(os.Stdout, cursos)
 
 	//com webserver
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		t := template.Must(template.New("index.html").ParseFiles("index.html"))
+		t := template.Must(template.New("content.html").ParseFiles("content.html"))
 		err := t.Execute(w, cursos)
 		if err != nil {
 			panic(err)
 		}
 	})
-	http.ListenAndServe(":8080", nil)
+
+	//com vários arquivos
+	templates := []string{
+		"header.html",
+		"content.html",
+		"footer.html",
+	}
+	tmpl2 := template.Must(template.New("content.html").ParseFiles(templates...))
+	err = tmpl2.Execute(os.Stdout, cursos)
+	if err != nil {
+		panic(err)
+	}
 }
