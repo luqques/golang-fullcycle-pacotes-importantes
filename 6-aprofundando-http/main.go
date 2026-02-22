@@ -40,18 +40,21 @@ func BuscaCepHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
+
 	viaCep, err := BuscaCep(cepParam)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	responseData, err := json.Marshal(viaCep)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	w.Write(responseData)
+
+	json.NewEncoder(w).Encode(viaCep) // forma mais curta somente para retornar o valor direto sem guardar o resultado parseado em uma variável.
+
+	// responseData, err := json.Marshal(viaCep) // forma mais longa onde o resultado do parseamento é guardado em uma variável.
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	return
+	// }
+	// w.Write(responseData)
 }
 
 func BuscaCep(cep string) (*ViaCep, error) {
