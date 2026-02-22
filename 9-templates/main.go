@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"os"
 	"text/template"
 )
@@ -34,4 +35,14 @@ func main() {
 	}
 	tmpl := template.Must(template.ParseFiles("index.html"))
 	err = tmpl.Execute(os.Stdout, cursos)
+
+	//com webserver
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		t := template.Must(template.New("index.html").ParseFiles("index.html"))
+		err := t.Execute(w, cursos)
+		if err != nil {
+			panic(err)
+		}
+	})
+	http.ListenAndServe(":8080", nil)
 }
