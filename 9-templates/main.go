@@ -18,4 +18,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	//com must
+	curso2 := Curso{"Python", 30}
+	tmp2 := template.Must(template.New("CursoTemplate2").Parse("Curso: {{.Nome}} - Carga Horária: {{.CargaHoraria}}"))
+	err = tmp2.Execute(os.Stdout, curso2)
 }
