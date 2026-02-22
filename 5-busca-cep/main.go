@@ -40,8 +40,16 @@ func main() {
 		var data ViaCep
 		err = json.Unmarshal(res, &data)
 		if err != nil {
-			fmt.Fprint(os.Stderr, "Erro ao fazer parse da resposta: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Erro ao fazer parse da resposta: %v\n", err)
 		}
-		fmt.Println(data)
+		//fmt.Println(data)
+
+		file, err := os.Create("cidade.txt")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Erro ao criar arquivo: %v\n", err)
+		}
+		defer file.Close()
+
+		_, err = fmt.Fprintf(file, "Cidade: %v", data.Localidade)
 	}
 }
